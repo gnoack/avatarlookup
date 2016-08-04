@@ -5,18 +5,23 @@ import os
 import re
 import subprocess
 import sys
+import time
 import vobject
+
 
 W3MIMGDISPLAY = "/usr/lib/w3m/w3mimgdisplay"
 BASEPATH = "~/.cache/avatarlookup"
+
 
 def normalize_mail(address):
   address = address.strip().lower()
   address = re.sub(r'@(googlemail|gmail)\.(com|de)', '@gmail.com', address)
   return address
 
+
 def path(filename):
   return os.path.expanduser(os.path.join(BASEPATH, filename))
+
 
 def make_dir():
   path = os.path.expanduser(BASEPATH)
@@ -46,6 +51,7 @@ def convert(vcf):
         except OSError:
           pass  # idempotently
 
+
 def lookup(name):
   if not name:
     return
@@ -63,6 +69,7 @@ def lookup(name):
                         (x, y, w, h, filename))
     drawing.communicate()
 
+
 def find_sender_mail(reader):
   mail = email.message_from_string(reader)
   addresses = email.utils.getaddresses(mail.get_all('From', []))
@@ -71,21 +78,23 @@ def find_sender_mail(reader):
   addr_name, addr_email = addresses[0]
   return normalize_mail(addr_email)
 
-if sys.argv[1] == "--index":
-  convert(sys.stdin)
-elif sys.argv[1] == "--lookup":
-  lookup(sys.argv[2])
-elif sys.argv[1] == "--lookup-from-mail":
-  mail_content = sys.stdin.read()
-  print mail_content
-  pid = os.fork()
-  if pid == -1:
-    pass  # Broken
-  elif pid == 0:
-    import time; time.sleep(0.05)
-    lookup(find_sender_mail(mail_content))
+
+def main(args):
+  if args[1] == "--index":
+    convert(sys.stdin)
+  elif args[1] == "--lookup":
+    lookup(args[2])
+  elif args[1] == "--lookup-from-mail":
+    mail_content = sys.stdin.read()
+    print mail_content
+    pid = os.fork()
+    if pid == -1:
+      pass  # Broken
+    elif pid == 0:
+      time.sleep(0.05)
+      lookup(find_sender_mail(mail_content))
+    else:
+      #os.wait()
+      pass  # Do not wait on purpose.
   else:
-    #os.wait()
-    pass  # Do not wait on purpose.
-else:
-  print "bad args, use --index or --lookup EMAIL"
+    sys.exit("bad args, use --index or --lookup EMAIL")
