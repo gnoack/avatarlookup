@@ -98,3 +98,7 @@ def main(args):
       pass  # Do not wait on purpose.
   else:
     sys.exit("bad args, use --index or --lookup EMAIL")
+
+
+if __name__ == "__main__":
+  main(sys.argv)
