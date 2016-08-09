@@ -15,6 +15,7 @@ def _lookup(email_address):
 
 
 def find_sender_mail(reader):
+  # TODO: Parsing emails seems rather slow.
   mail = email.message_from_string(reader)
   addresses = email.utils.getaddresses(mail.get_all('From', []))
   if not addresses:
