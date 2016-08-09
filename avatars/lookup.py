@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+"""Look up avatars by email address and display them in the terminal."""
 
 import argparse
 import email
@@ -8,6 +8,7 @@ import time
 
 from . import file_cache
 from . import terminal
+
 
 def _lookup(email_address):
   terminal.draw_image(file_cache.lookup_filename(email_address))
@@ -28,7 +29,7 @@ def main(args):
   options = parser.parse_args(args)
 
   if options.pipe_mail:
-    # TODO: This needs cleanup.
+    # TODO: This forking and piping strategy is a mess.
     mail_content = sys.stdin.read()
     print(mail_content)
     pid = os.fork()
