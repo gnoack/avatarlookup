@@ -14,7 +14,7 @@ def _lookup(email_address):
   terminal.draw_image(file_cache.lookup_filename(email_address))
 
 
-def main(args):
+def main():
   parser = argparse.ArgumentParser(
     usage=("%(prog)s --pipe-mail < one_mail.mbox\n"
            "%(prog)s --email-address FOO@EXAMPLE.COM"),
@@ -26,7 +26,7 @@ def main(args):
   parser.add_argument(
     "-e", "--email-address", dest="email_address",
     type=str, help="Email address to look up")
-  options = parser.parse_args(args)
+  options = parser.parse_args(sys.argv[1:])
 
   if options.pipe_mail:
     # TODO: This forking and piping strategy is a mess.
@@ -45,7 +45,3 @@ def main(args):
     _lookup(options.email_address)
   else:
     argparse.error("Missing argument.")
-
-
-if __name__ == "__main__":
-  main(sys.argv[1:])

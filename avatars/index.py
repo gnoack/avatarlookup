@@ -32,16 +32,12 @@ def _populate_index_from_vcard(vcf, dry_run=False):
         cache.link(uid, email_address)
 
 
-def main(args):
+def main():
   parser = argparse.ArgumentParser(
     usage="%(prog)s [OPTIONS]",
     description=__doc__)
   parser.add_argument("-n", dest="dry_run", action="store_true",
                       help="Dry run mode (noop)")
-  options = parser.parse_args(args)
+  options = parser.parse_args(sys.argv[1:])
 
   _populate_index_from_vcard(sys.stdin, dry_run=options.dry_run)
-
-
-if __name__ == "__main__":
-  main(sys.argv[1:])
