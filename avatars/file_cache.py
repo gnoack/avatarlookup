@@ -14,7 +14,8 @@ def _path(filename):
   return os.path.expanduser(os.path.join(BASEPATH, filename))
 
 
-def _make_dir():
+def maybe_create_cache():
+  # Idempotent one-time set up.
   path = os.path.expanduser(BASEPATH)
   if not os.path.exists(path):
     os.mkdir(path)
@@ -22,7 +23,7 @@ def _make_dir():
 
 def store(uid, photo_data):
   canonical_name = _path(uid)
-  with open(uid, "w") as writer:
+  with open(canonical_name, "w") as writer:
     writer.write(photo_data)
 
 

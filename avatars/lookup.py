@@ -15,8 +15,8 @@ def _lookup(email_address):
 
 def main(args):
   parser = argparse.ArgumentParser(
-    usage = ("%(prog)s --pipe-mail < one_mail.mbox\n"
-             "%(prog)s --email-address FOO@EXAMPLE.COM"),
+    usage=("%(prog)s --pipe-mail < one_mail.mbox\n"
+           "%(prog)s --email-address FOO@EXAMPLE.COM"),
     description=__doc__)
   parser.add_argument(
     "--pipe-mail", dest="pipe_mail",
@@ -28,6 +28,7 @@ def main(args):
   options = parser.parse_args(args)
 
   if options.pipe_mail:
+    # TODO: This needs cleanup.
     mail_content = sys.stdin.read()
     print(mail_content)
     pid = os.fork()

@@ -1,12 +1,20 @@
 """Index avatars by email from Vcards piped on stdin."""
+
+import argparse
 import sys
 import vobject
 
 from . import file_cache
 
 
-def index(vcf):
-  make_dir()
+def _populate_index_from_vcard(vcf, dry_run=False):
+  if dry_run:
+    from . import dry_run_cache
+    cache = dry_run_cache
+  else:
+    cache = file_cache
+
+  cache.maybe_create_cache()
 
   for card in vobject.readComponents(vcf):
     try:
@@ -15,18 +23,25 @@ def index(vcf):
       continue
 
     uid = card.uid.value
-    file_cache.store(uid, photo.value)
+    cache.store(uid, photo.value)
 
     # Link email addresses.
     for child in card.getChildren():
       if child.name == "EMAIL":
         email_address = child.value
-        file_cache.link(uid, email_address)
+        cache.link(uid, email_address)
 
 
-def main():
-  index(sys.stdin)
+def main(args):
+  parser = argparse.ArgumentParser(
+    usage="%(prog)s [OPTIONS]",
+    description=__doc__)
+  parser.add_argument("-n", dest="dry_run", action="store_true",
+                      help="Dry run mode (noop)")
+  options = parser.parse_args(args)
+
+  _populate_index_from_vcard(sys.stdin, dry_run=options.dry_run)
 
 
 if __name__ == "__main__":
-  main()
+  main(sys.argv[1:])
