@@ -5,8 +5,13 @@ setup(
     name = "avatar_lookup",
     version = "0.1",
     packages = find_packages(),
-    scripts = ["avatarlookup.py"],
     install_requires = ["vobject >= 0.9.1"],
+    entry_points = {
+        "console_scripts": [
+            "avatar-lookup = avatars.lookup:main",
+            "avatar-index = avatars.index:main",
+        ]
+    },
 
     author = "Günther Noack",
     author_email = "guenther@unix-ag.uni-kl.de",
