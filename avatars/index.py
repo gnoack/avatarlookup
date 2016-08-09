@@ -41,3 +41,7 @@ def main():
   options = parser.parse_args(sys.argv[1:])
 
   _populate_index_from_vcard(sys.stdin, dry_run=options.dry_run)
+
+
+if __name__ == "__main__":
+  main()

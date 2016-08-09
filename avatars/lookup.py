@@ -16,8 +16,7 @@ def _lookup(email_address):
 
 def main():
   parser = argparse.ArgumentParser(
-    usage=("%(prog)s --pipe-mail < one_mail.mbox\n"
-           "%(prog)s --email-address FOO@EXAMPLE.COM"),
+    usage="%(prog)s [OPTIONS]",
     description=__doc__)
   parser.add_argument(
     "--pipe-mail", dest="pipe_mail",
@@ -44,4 +43,8 @@ def main():
   elif options.email_address:
     _lookup(options.email_address)
   else:
-    argparse.error("Missing argument.")
+    parser.error("Missing argument.")
+
+
+if __name__ == "__main__":
+  main()

@@ -17,6 +17,5 @@ def draw_image(filename):
 
     drawing = subprocess.Popen(W3MIMGDISPLAY, stdin=subprocess.PIPE)
     commands = "0;1;%s;%s;%s;%s;;;;;%s\n4;\n3;" % (x, y, w, h, filename)
-    commands = bytes(commands, encoding="utf-8")
     drawing.stdin.write(commands)
     drawing.communicate()
