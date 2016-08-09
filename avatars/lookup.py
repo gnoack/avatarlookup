@@ -14,6 +14,15 @@ def _lookup(email_address):
   terminal.draw_image(file_cache.lookup_filename(email_address))
 
 
+def find_sender_mail(reader):
+  mail = email.message_from_string(reader)
+  addresses = email.utils.getaddresses(mail.get_all('From', []))
+  if not addresses:
+    return None
+  addr_name, addr_email = addresses[0]
+  return addr_email
+
+
 def main():
   parser = argparse.ArgumentParser(
     usage="%(prog)s [OPTIONS]",
