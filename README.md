@@ -2,9 +2,11 @@
 
 Look up and display avatars for your contacts in mutt.
 
+![A screenshot of avatarlookup in action](doc/screenshot.png)
+
 *Warning* Command line interface is still a bit unstable.
 
-TODO: Write documentation. Add screenshot.
+TODO: Write better documentation.
 
 ## Populating the Avatar database
 
@@ -24,4 +26,3 @@ Add this line to your `.muttrc`:
 The display filters are meant for modifying the mails before display,
 but the tool just writes out the same mail again, and - with a small
 delay - draws a suitable avatar over the terminal.
-
