@@ -6,7 +6,7 @@ W3MIMGDISPLAY = "/usr/lib/w3m/w3mimgdisplay"
 
 
 def draw_image(filename):
-  if os.path.exists(filename):
+  if filename and os.path.exists(filename):
     windowsize_str = subprocess.check_output((W3MIMGDISPLAY, "-test"))
     windowx, windowy = map(int, windowsize_str.split(b" "))
 

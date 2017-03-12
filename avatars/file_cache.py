@@ -5,6 +5,7 @@ BASEPATH = "~/.cache/avatarlookup"
 
 
 def _normalize_mail(address):
+  address = address or ''
   address = address.strip().lower()
   address = re.sub(r'@(googlemail|gmail)\.(com|de)', '@gmail.com', address)
   return address
